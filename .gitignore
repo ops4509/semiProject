@@ -160,5 +160,13 @@ $RECYCLE.BIN/\
 # Windows shortcuts\
 *.lnk\
 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 #Eclipse core \
+.project \
+\
+#JDT-specific \
+.classpath\outl0\strokewidth0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,eclipse\
 }
