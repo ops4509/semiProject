@@ -160,5 +160,11 @@ $RECYCLE.BIN/\
 # Windows shortcuts\
 *.lnk\
 \
+#Eclipse core 
+.project 
+\
+#JDT-specific 
+.classpath
+\
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,eclipse\
 }
