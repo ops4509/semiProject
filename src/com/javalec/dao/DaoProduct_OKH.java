@@ -26,6 +26,7 @@ public class DaoProduct_OKH {
 	String pcolor;
 	String pbrand;
 	String pprice;
+	String loginid;
 
 	FileInputStream pfpic;
 	FileInputStream pbpic;
@@ -38,9 +39,16 @@ public class DaoProduct_OKH {
 	}
 
 	// table click constructor
+	public DaoProduct_OKH(String loginid,int pcode) {
+		super();
+		this.pcode = pcode;
+		this.loginid = loginid;
+	}
+	
 	public DaoProduct_OKH(int pcode) {
 		super();
 		this.pcode = pcode;
+		
 	}
 
 	// Method
@@ -50,6 +58,7 @@ public class DaoProduct_OKH {
 		ArrayList<DtoProduct_OKH> beanList = new ArrayList<DtoProduct_OKH>();
 
 		String query = "Select pcode, pname, psize, pcolor, pbrand, pprice from shoesmarket.product";
+//		String query1 = "Select pcode, pname, psize, pcolor, pbrand, pprice from shoesmarket.product"
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // mysql.cj가 mysql 8버젼부터 사용된거다.
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
@@ -80,24 +89,24 @@ public class DaoProduct_OKH {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // mysql.cj가 mysql 8버젼부터 사용된거다.
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-			String query = "Insert into buying (user_uid, product_pcode, oqty, odate)";
+			String query = "Insert into buying (buuid, bupcode, buqty, budate)";
 			String query1 = " values (?, ?, 1, now()) ";
 
 			ps = conn_mysql.prepareStatement(query + query1);
-			DaoUser_OKH dao = new DaoUser_OKH();
-			ps.setString(1, dao.loginid);
+			ps.setString(1, loginid);
 			ps.setInt(2, pcode);
+			
+			ps.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// 바로구매
+	// 바로구매 문구 보이기
 	public DtoProduct_OKH purchase() {
 		DtoProduct_OKH dto = null;
 
-		DaoUser_OKH dao = new DaoUser_OKH();
 		String query = "select p.pname, p.pbrand, p.pcolor, p.psize, p.pprice "
 				+ " from product p" 
 				+ " where pcode = " + pcode;
@@ -169,28 +178,6 @@ public class DaoProduct_OKH {
 				while (psinput.read(psbuffer) > 0) {
 					psoutput.write(psbuffer);
 				}
-
-				
-//				if (pfinput != null) {
-//				    byte[] pfbuffer = new byte[1024];
-//				    while (pfinput.read(pfbuffer) > 0) {
-//				        pfoutput.write(pfbuffer);
-//				    }
-//				}
-//
-//				if (pbinput != null) {
-//				    byte[] pbbuffer = new byte[1024];
-//				    while (pbinput.read(pbbuffer) > 0) {
-//				        pboutput.write(pbbuffer);
-//				    }
-//				}
-//
-//				if (psinput != null) {
-//				    byte[] psbuffer = new byte[1024];
-//				    while (psinput.read(psbuffer) > 0) {
-//				        psoutput.write(psbuffer);
-//				    }
-//				}
 				
 				DtoProduct_OKH dtopic = new DtoProduct_OKH(wpffile, wpbflie, wpsflie);
 				beanList.add(dtopic);

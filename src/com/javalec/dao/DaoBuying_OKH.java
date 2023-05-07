@@ -15,16 +15,18 @@ public class DaoBuying_OKH {
 	private final String pw_mysql = ShareVar.DBPass;
 	private String loginid;
 	private int count;
+	private ArrayList<DtoProduct_OKH> dtoList ;
 
 	// Constructor
 	public DaoBuying_OKH() {
 
 	}
 	
-	public DaoBuying_OKH(String loginid, int count) {
+	public DaoBuying_OKH(String loginid, int count,ArrayList<DtoProduct_OKH> dtoList) {
 		super();
 		this.loginid = loginid;
 		this.count = count;
+		this.dtoList = dtoList; 
 	}
 
 
@@ -37,18 +39,15 @@ public class DaoBuying_OKH {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-			DaoBasket_OKH dao = new DaoBasket_OKH(loginid);
 			
-			ArrayList<DtoProduct_OKH> dtoList = dao.basketList();
 			System.out.println(dtoList.get(1).getPcode());
-			for(int i=1; i<= count; i++) {
+			for(int i=1; i<= count-1; i++) {
 			pstmt_mysql = conn_mysql.prepareStatement(query+query1);
 			pstmt_mysql.setString(1, loginid);
 			pstmt_mysql.setInt(2, dtoList.get(i).getPcode());
-			System.out.println(dtoList.get(i).getPcode());
+			pstmt_mysql.executeUpdate();
 			
 			}
-			pstmt_mysql.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 

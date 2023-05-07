@@ -245,7 +245,7 @@ public class Basket extends JFrame {
 					changetoList();
 				}
 			});
-			btnback.setBounds(28, 628, 117, 29);
+			btnback.setBounds(28, 645, 117, 30);
 		}
 		return btnback;
 	}
@@ -258,10 +258,11 @@ public class Basket extends JFrame {
 					deleteAction();
 					tableListInit();
 					searchAction();
+					screenPartition();
 					
 				}
 			});
-			btndelete.setBounds(142, 628, 117, 29);
+			btndelete.setBounds(142, 645, 117, 30);
 		}
 		return btndelete;
 	}
@@ -273,10 +274,11 @@ public class Basket extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					confirm();
 					orderAction();
-//					deleteAction();
+					deleteAction();
+					screenPartition();
 				}
 			});
-			btnconfirm.setBounds(256, 628, 117, 29);
+			btnconfirm.setBounds(256, 645, 117, 30);
 		}
 		return btnconfirm;
 	}
@@ -385,8 +387,11 @@ public class Basket extends JFrame {
 	
 	// 오더!
 	private void orderAction() {
-		DaoBuying_OKH dao = new DaoBuying_OKH(loginname(), outerTableList.getRowCount());
-		dao.buyingList();
+		DaoBasket_OKH dao = new DaoBasket_OKH(loginid);
+		
+		ArrayList<DtoProduct_OKH> dtoList = dao.basketList();
+		DaoBuying_OKH dao2 = new DaoBuying_OKH(loginid(), outerTableList.getRowCount(),dtoList);
+		dao2.buyingList();
 	}
 	
 	//	쇼핑리스트로 장면 변경
@@ -402,6 +407,7 @@ public class Basket extends JFrame {
 	private void screenPartition() {
 		if(result==0) {
 			btndelete.setVisible(false);
+			btnconfirm.setVisible(false);
 		}
 	}
 }

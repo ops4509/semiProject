@@ -46,6 +46,7 @@ public class Shoppinglist extends JFrame {
 	private JButton btnBasket;
 	private JButton btnPurchase;
 	public String loginname;
+	public String loginid;
 
 	// table
 	private final DefaultTableModel outerTableList = new DefaultTableModel();
@@ -161,7 +162,7 @@ public class Shoppinglist extends JFrame {
 
 				// 가장 중요한 부분!
 				public Class getColumnClass(int column) { // <<<
-					return (column == 0) ? Icon.class : Object.class; // <<<
+					return (column <= 3) ? Icon.class : Object.class; // <<<
 				}
 			};
 			// Table의 목록은 다 원래 오브젝트, 그래서 Icon을 명시해줌.
@@ -211,6 +212,13 @@ public class Shoppinglist extends JFrame {
 		DaoUser_OKH dao = new DaoUser_OKH();
 		loginname = dao.loginname();
 		return loginname;
+
+	}
+	
+	private String loginid() {
+		DaoUser_OKH dao = new DaoUser_OKH();
+		loginid = dao.loginid();
+		return loginid;
 
 	}
 	
@@ -328,9 +336,9 @@ public class Shoppinglist extends JFrame {
 		int listCount = beanList.size();
 
 		for (int j = 0; j < listCount; j++) {
-			ImageIcon pfpic = new ImageIcon("./" + beanList.get(j).getPffile());
-			ImageIcon pbpic = new ImageIcon("./" + beanList.get(j).getPbfile());
-			ImageIcon pspic = new ImageIcon("./" + beanList.get(j).getPsfile());
+			ImageIcon pfpic = new ImageIcon("./" + beanList.get(j).getPsfile());
+			ImageIcon pbpic = new ImageIcon("./" + beanList.get(j).getPffile());
+			ImageIcon pspic = new ImageIcon("./" + beanList.get(j).getPbfile());
 			Object[] tempData = { pfpic, pbpic, pspic }; // -> 문제가 있다.
 			outerTablePic.addRow(tempData);
 
@@ -351,14 +359,14 @@ public class Shoppinglist extends JFrame {
 		}
 	}
 	
-	// 상품 구매 
+	// 바로 구매 문구 표시
 	public void purchase(){
 		String oname, osize, ocolor, obrand, oprice;
 		
 		int i = tableList.getSelectedRow();
 		String pCode = (String) tableList.getValueAt(i, 0);
 		
-		DaoProduct_OKH dao = new DaoProduct_OKH(Integer.parseInt(pCode));
+		DaoProduct_OKH dao = new DaoProduct_OKH(loginid(), Integer.parseInt(pCode));
 		dao.purchasetoOrder();
 		
 		
@@ -388,7 +396,7 @@ public class Shoppinglist extends JFrame {
 	public void changetoBasket() {
 		setVisible(false);
 		Basket basket = new Basket();
-
+		
 		basket.setVisible(true);
 	}
 	

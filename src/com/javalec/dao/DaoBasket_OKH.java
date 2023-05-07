@@ -15,8 +15,8 @@ public class DaoBasket_OKH {
 	private final String url_mysql = ShareVar.DBName;
 	private final String id_mysql = ShareVar.DBUser;
 	private final String pw_mysql = ShareVar.DBPass;
-	private String loginid;
-	private int pcode;
+	public String loginid;
+	public int pcode;
 
 	// Constructor
 	public DaoBasket_OKH() {
