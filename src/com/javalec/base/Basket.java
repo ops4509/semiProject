@@ -308,8 +308,9 @@ public class Basket extends JFrame {
 		outerTableList.addColumn("색깔");
 		outerTableList.addColumn("브랜드");
 		outerTableList.addColumn("가격");
+		outerTableList.addColumn("수량");
 
-		outerTableList.setColumnCount(5);
+		outerTableList.setColumnCount(6);
 
 		int i = outerTableList.getRowCount();
 
@@ -343,6 +344,11 @@ public class Basket extends JFrame {
 		col = tableList.getColumnModel().getColumn(vColIndex);
 		width = 55;
 		col.setPreferredWidth(width);
+		
+		vColIndex = 5;
+		col = tableList.getColumnModel().getColumn(vColIndex);
+		width = 40;
+		col.setPreferredWidth(width);
 	}
 
 	// innertable 띄우기!
@@ -354,7 +360,7 @@ public class Basket extends JFrame {
 
 		for (int i = 0; i < listCount; i++) {
 			String[] qTxt = { dtoList.get(i).getPname(), dtoList.get(i).getPsize(), dtoList.get(i).getPcolor(),
-					dtoList.get(i).getPbrand(), Integer.toString(dtoList.get(i).getPprice()) };
+					dtoList.get(i).getPbrand(), Integer.toString(dtoList.get(i).getPprice()), Integer.toString(dtoList.get(i).getBqty()) };
 			outerTableList.addRow(qTxt);
 			price = price + dtoList.get(i).getPprice();
 		}

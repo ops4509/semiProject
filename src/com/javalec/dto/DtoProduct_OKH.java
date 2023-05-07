@@ -8,8 +8,8 @@ public class DtoProduct_OKH {
 	String pcolor;
 	String pbrand;
 	String pffile;
-	String psfile;
-	String pbfile;
+
+	int bqty;
 	int pprice;
 	
 	
@@ -18,11 +18,9 @@ public class DtoProduct_OKH {
 		
 	}
 
-	public DtoProduct_OKH(String pffile, String pbfile, String psfile) {
+	public DtoProduct_OKH(String pffile) {
 		super();
 		this.pffile = pffile;
-		this.psfile = psfile;
-		this.pbfile = pbfile;
 	}
 
 	public DtoProduct_OKH(int pcode, String pname, String psize, String pcolor, String pbrand, int pprice) {
@@ -44,7 +42,7 @@ public class DtoProduct_OKH {
 		this.pprice = pprice;
 	}
 	
-	public DtoProduct_OKH(String pname, String pbrand, String pcolor, String psize, int pprice, int pcode) {
+	public DtoProduct_OKH(String pname, String pbrand, String pcolor, String psize, int pprice, int pcode, int bqty) {
 		super();
 		this.pname = pname;
 		this.psize = psize;
@@ -52,6 +50,7 @@ public class DtoProduct_OKH {
 		this.pbrand = pbrand;
 		this.pprice = pprice;
 		this.pcode = pcode;
+		this.bqty = bqty;
 	}
 
 	//	Method
@@ -124,20 +123,13 @@ public class DtoProduct_OKH {
 		this.pffile = pffile;
 	}
 
-	public String getPsfile() {
-		return psfile;
+
+	public int getBqty() {
+		return bqty;
 	}
 
-	public void setPsfile(String psfile) {
-		this.psfile = psfile;
-	}
-
-	public String getPbfile() {
-		return pbfile;
-	}
-
-	public void setPbfile(String pbfile) {
-		this.pbfile = pbfile;
+	public void setBqty(int bqty) {
+		this.bqty = bqty;
 	}
 	
 	

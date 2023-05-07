@@ -17,6 +17,7 @@ public class DaoBasket_OKH {
 	private final String pw_mysql = ShareVar.DBPass;
 	public String loginid;
 	public int pcode;
+	public int bqty;
 
 	// Constructor
 	public DaoBasket_OKH() {
@@ -24,6 +25,15 @@ public class DaoBasket_OKH {
 	}
 	
 	
+
+	public DaoBasket_OKH(String loginid, int pcode, int bqty) {
+		super();
+		this.loginid = loginid;
+		this.pcode = pcode;
+		this.bqty = bqty;
+	}
+
+
 
 	public DaoBasket_OKH(String loginid, int pcode) {
 		super();
@@ -44,7 +54,7 @@ public class DaoBasket_OKH {
 	public ArrayList<DtoProduct_OKH> basketList() {
 		ArrayList<DtoProduct_OKH> beanList = new ArrayList<DtoProduct_OKH>();
 		
-		String query = "SELECT p.pname, p.pbrand, p.pcolor, p.psize, p.pprice, p.pcode" + " from product p, basket b, user u"
+		String query = "SELECT p.pname, p.pbrand, p.pcolor, p.psize, p.pprice, p.pcode, b.bqty" + " from product p, basket b, user u"
 				+ " where b.buid = u.uid and b.bpcode = p.pcode " + " and u.uid = '" + loginid + "'";
 		
 		
@@ -62,8 +72,9 @@ public class DaoBasket_OKH {
 				String wpsize = rs.getString(4);
 				int wpprice = rs.getInt(5);
 				int wpcode = rs.getInt(6);
+				int bqty = rs.getInt(7);
 
-				DtoProduct_OKH dto = new DtoProduct_OKH(wpname, wpbrand, wpcolor, wpsize, wpprice, wpcode);
+				DtoProduct_OKH dto = new DtoProduct_OKH(wpname, wpbrand, wpcolor, wpsize, wpprice, wpcode,bqty);
 				beanList.add(dto);
 			}
 		} catch (Exception e) {
@@ -99,7 +110,7 @@ public class DaoBasket_OKH {
 			
 			pstmt_mysql.setString(1, loginid);
 			pstmt_mysql.setInt(2, pcode);
-			pstmt_mysql.setInt(3, 1);
+			pstmt_mysql.setInt(3, bqty);
 
 	        pstmt_mysql.executeUpdate();
 		} catch (Exception e) {
@@ -107,6 +118,7 @@ public class DaoBasket_OKH {
 
 		}
 	}
+	
 
 
 }

@@ -58,7 +58,6 @@ public class DaoProduct_OKH {
 		ArrayList<DtoProduct_OKH> beanList = new ArrayList<DtoProduct_OKH>();
 
 		String query = "Select pcode, pname, psize, pcolor, pbrand, pprice from shoesmarket.product";
-//		String query1 = "Select pcode, pname, psize, pcolor, pbrand, pprice from shoesmarket.product"
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // mysql.cj가 mysql 8버젼부터 사용된거다.
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
@@ -135,9 +134,9 @@ public class DaoProduct_OKH {
 
 	// Row Click시, table에 사진 노출
 
-	public ArrayList<DtoProduct_OKH> tableclick() {
+	public ArrayList<DtoProduct_OKH> getimg() {
 		ArrayList<DtoProduct_OKH> beanList = new ArrayList<DtoProduct_OKH>();
-		String whereDefault = "select pffile, pfpic, pbfile ,pbpic, psfile , pspic from product";
+		String whereDefault = "select pffile, pfpic from product";
 		String whereDefault1 = " where pcode = " + pcode;
 		// sql 문구 띄어쓰기 주의.
 
@@ -151,35 +150,21 @@ public class DaoProduct_OKH {
 			while (rs.next()) {
 				String wpffile = rs.getString(1);
 				InputStream pfinput = rs.getBinaryStream(2);
-				String wpbflie = rs.getString(3);
-				InputStream pbinput = rs.getBinaryStream(4);
-				String wpsflie = rs.getString(5);
-				InputStream psinput = rs.getBinaryStream(6);
+	
 
 				File pffile = new File("./" + wpffile);
-				File pbfile = new File("./" + wpbflie);
-				File psfile = new File("./" + wpsflie);
+				
 
 				FileOutputStream pfoutput = new FileOutputStream(pffile);
-				FileOutputStream pboutput = new FileOutputStream(pbfile);
-				FileOutputStream psoutput = new FileOutputStream(psfile);
+				
 
 				byte[] pfbuffer = new byte[1024];
 				while (pfinput.read(pfbuffer) > 0) {
 					pfoutput.write(pfbuffer);
 				}
 
-				byte[] pbbuffer = new byte[1024];
-				while (pbinput.read(pbbuffer) > 0) {
-					pboutput.write(pbbuffer);
-				}
-
-				byte[] psbuffer = new byte[1024];
-				while (psinput.read(psbuffer) > 0) {
-					psoutput.write(psbuffer);
-				}
 				
-				DtoProduct_OKH dtopic = new DtoProduct_OKH(wpffile, wpbflie, wpsflie);
+				DtoProduct_OKH dtopic = new DtoProduct_OKH(wpffile);
 				beanList.add(dtopic);
 			}
 
