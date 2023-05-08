@@ -48,6 +48,7 @@ public class DaoInbound_OKH {
 				DtoInbound_OKH dto = new DtoInbound_OKH(ibqty);
 				beanList.add(dto);
 			}
+			conn_mysql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+
 import com.javalec.dto.DtoProduct_OKH;
 import com.javalec.util.ShareVar;
 
@@ -39,16 +42,16 @@ public class DaoProduct_OKH {
 	}
 
 	// table click constructor
-	public DaoProduct_OKH(String loginid,int pcode) {
+	public DaoProduct_OKH(String loginid, int pcode) {
 		super();
 		this.pcode = pcode;
 		this.loginid = loginid;
 	}
-	
+
 	public DaoProduct_OKH(int pcode) {
 		super();
 		this.pcode = pcode;
-		
+
 	}
 
 	// Method
@@ -76,6 +79,7 @@ public class DaoProduct_OKH {
 				DtoProduct_OKH dto = new DtoProduct_OKH(wpcode, wpname, wpsize, wpcolor, wpbrand, wpprice);
 				beanList.add(dto);
 			}
+			conn_mysql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,9 +98,9 @@ public class DaoProduct_OKH {
 			ps = conn_mysql.prepareStatement(query + query1);
 			ps.setString(1, loginid);
 			ps.setInt(2, pcode);
-			
-			ps.executeUpdate();
 
+			ps.executeUpdate();
+			conn_mysql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,9 +110,8 @@ public class DaoProduct_OKH {
 	public DtoProduct_OKH purchase() {
 		DtoProduct_OKH dto = null;
 
-		String query = "select p.pname, p.pbrand, p.pcolor, p.psize, p.pprice "
-				+ " from product p" 
-				+ " where pcode = " + pcode;
+		String query = "select p.pname, p.pbrand, p.pcolor, p.psize, p.pprice " + " from product p" + " where pcode = "
+				+ pcode;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // mysql.cj가 mysql 8버젼부터 사용된거다.
@@ -126,6 +129,7 @@ public class DaoProduct_OKH {
 
 				dto = new DtoProduct_OKH(wpname, wpbrand, wpcolor, wpsize, wpprice);
 			}
+			conn_mysql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,7 +137,6 @@ public class DaoProduct_OKH {
 	}
 
 	// Row Click시, table에 사진 노출
-
 	public ArrayList<DtoProduct_OKH> getimg() {
 		ArrayList<DtoProduct_OKH> beanList = new ArrayList<DtoProduct_OKH>();
 		String whereDefault = "select pffile, pfpic from product";
@@ -150,28 +153,62 @@ public class DaoProduct_OKH {
 			while (rs.next()) {
 				String wpffile = rs.getString(1);
 				InputStream pfinput = rs.getBinaryStream(2);
-	
 
 				File pffile = new File("./" + wpffile);
-				
 
 				FileOutputStream pfoutput = new FileOutputStream(pffile);
-				
 
 				byte[] pfbuffer = new byte[1024];
 				while (pfinput.read(pfbuffer) > 0) {
 					pfoutput.write(pfbuffer);
 				}
 
-				
 				DtoProduct_OKH dtopic = new DtoProduct_OKH(wpffile);
 				beanList.add(dtopic);
 			}
-
+			conn_mysql.close();
 		} catch (Exception e) {
 
 			e.printStackTrace(); // Error가 걸리면, Error 코드가 보여준다. 만약프로젝트 오픈한다고 하면 다이얼로그를 보여준다.
 		}
 		return beanList;
 	}
+
+	// 사진 하나만 ImageIcon으로 가져오기
+	public String getimgicon() {
+		PreparedStatement ps = null;
+		String wpffile = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver"); // mysql.cj가 mysql 8버젼부터 사용된거다.
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+			String query = "select pffile, pfpic from product";
+			;
+			String query1 = " where pcode = ?";
+
+			ps = conn_mysql.prepareStatement(query + query1);
+			ps.setInt(1, pcode+1);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				wpffile = rs.getString(1);
+				InputStream pfinput = rs.getBinaryStream(2);
+
+				File pffile = new File("./" + wpffile);
+
+				FileOutputStream pfoutput = new FileOutputStream(pffile);
+
+				byte[] pfbuffer = new byte[1024];
+				while (pfinput.read(pfbuffer) > 0) {
+					pfoutput.write(pfbuffer);
+				}
+
+			}
+			conn_mysql.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return wpffile;
+
+	}
+
 }

@@ -54,6 +54,7 @@ public class Shoppinglist extends JFrame {
 	public static String loginname;
 	public static String loginid;
 	public static int selectedRow;
+	private JButton btnLogout;
 
 	// table
 	private final DefaultTableModel outerTableList = new DefaultTableModel();
@@ -61,6 +62,7 @@ public class Shoppinglist extends JFrame {
 
 	ArrayList<DtoProduct_OKH> beanList = null;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -107,6 +109,7 @@ public class Shoppinglist extends JFrame {
 		contentPane.add(getScrollPane_1());
 		contentPane.add(getBtnBasket());
 		contentPane.add(getBtnPurchase());
+		contentPane.add(getBtnLogout());
 	}
 
 	private JLabel getLblHello() {
@@ -195,7 +198,7 @@ public class Shoppinglist extends JFrame {
 					changetoQty();
 				}
 			});
-			btnBasket.setBounds(45, 635, 95, 40);
+			btnBasket.setBounds(155, 635, 95, 40);
 		}
 		return btnBasket;
 	}
@@ -209,9 +212,22 @@ public class Shoppinglist extends JFrame {
 					purchase();
 				}
 			});
-			btnPurchase.setBounds(264, 635, 95, 40);
+			btnPurchase.setBounds(265, 635, 95, 40);
 		}
 		return btnPurchase;
+	}
+
+	private JButton getBtnLogout() {
+		if (btnLogout == null) {
+			btnLogout = new JButton("로그아웃");
+			btnLogout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					logout();
+				}
+			});
+			btnLogout.setBounds(45, 635, 95, 40);
+		}
+		return btnLogout;
 	}
 
 	// function
@@ -407,9 +423,6 @@ public class Shoppinglist extends JFrame {
 
 	}
 
-	// 장바구니로 데이터 이동
-	
-
 	// 수량 설정 화면 이동
 	public void changetoQty() {
 		DaoInbound_OKH dao2 = new DaoInbound_OKH();
@@ -436,6 +449,16 @@ public class Shoppinglist extends JFrame {
 			Qtyselect qtyselect = new Qtyselect();
 			qtyselect.setVisible(true);
 		}
+	}
+	
+	// logout 하기
+	public void logout() {
+		DaoUser_OKH dao = new DaoUser_OKH();
+		dao.logout();
+		/*
+		 * 합치면 쓰기. LYJ branch 참고해서 만듬. MainLogin_Yj mainlogin_Yj = new MainLogin_Yj();
+		 * mainlogin_Yj.setVisible(true); dispose();
+		 */
 	}
 
 }

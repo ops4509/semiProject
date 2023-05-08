@@ -245,7 +245,7 @@ public class Basket extends JFrame {
 					changetoList();
 				}
 			});
-			btnback.setBounds(28, 645, 117, 30);
+			btnback.setBounds(45, 635, 95, 40);
 		}
 		return btnback;
 	}
@@ -262,7 +262,7 @@ public class Basket extends JFrame {
 					
 				}
 			});
-			btndelete.setBounds(142, 645, 117, 30);
+			btndelete.setBounds(155, 635, 95, 40);
 		}
 		return btndelete;
 	}
@@ -275,10 +275,12 @@ public class Basket extends JFrame {
 					confirm();
 					orderAction();
 					deleteAction();
-					screenPartition();
+					clean();
+					btndelete.setVisible(false);
+					btnconfirm.setVisible(false);
 				}
 			});
-			btnconfirm.setBounds(256, 645, 117, 30);
+			btnconfirm.setBounds(265, 635, 95, 40);
 		}
 		return btnconfirm;
 	}
@@ -411,9 +413,18 @@ public class Basket extends JFrame {
 
 	// 버튼 제한
 	private void screenPartition() {
-		if(result==0) {
+		if(result == 0) {
 			btndelete.setVisible(false);
 			btnconfirm.setVisible(false);
 		}
 	}
+	
+	// tf 닦기
+		public void clean() {
+			tfdelivery.setText(null);
+			tfprice.setText(null);
+			tfresult.setText(null);
+			outerTableList.setRowCount(0);
+		}
+
 }

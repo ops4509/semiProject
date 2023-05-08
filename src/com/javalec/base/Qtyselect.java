@@ -209,14 +209,12 @@ public class Qtyselect extends JDialog {
 
 	private JLabel getLbpic() {
 		DaoProduct_OKH daoimg = new DaoProduct_OKH(Shoppinglist.selectedRow);
-		beanList = daoimg.getimg();
+		String wpfile = daoimg.getimgicon();
 
 		if (lbpic == null) {
 			lbpic = new JLabel("");
 
-			lbpic.setIcon(new ImageIcon(
-//					("./" + beanList.get(0).getPffile())
-			));
+			lbpic.setIcon(new ImageIcon(("./" + wpfile)));
 			lbpic.setBounds(270, 63, 104, 104);
 		}
 		return lbpic;
@@ -237,7 +235,7 @@ public class Qtyselect extends JDialog {
 	// 수량 가져오기
 	public void gotoBasket() {
 		String oname, osize, ocolor, obrand;
-		
+
 		DaoInbound_OKH dao2 = new DaoInbound_OKH();
 		DaoOutbound_OKH dao3 = new DaoOutbound_OKH();
 		ArrayList<DtoInbound_OKH> dtoList2 = dao2.selectQty();
@@ -249,23 +247,23 @@ public class Qtyselect extends JDialog {
 		obrand = dto.getPbrand();
 		ocolor = dto.getPcolor();
 		osize = dto.getPsize();
-		if (dtoList2.get(Shoppinglist.selectedRow).getIbqty() - dtoList3.get(Shoppinglist.selectedRow)
-				.getObqty() < qty) {
-			JOptionPane.showMessageDialog(null,Shoppinglist.loginname + "님!\n " + obrand + "브랜드 의 " + oname + "<" + ocolor + ">의 "
-					+ osize + "사이즈 " + "는 재고가 부족합니다.\n죄송합니다.!");
+		if (dtoList2.get(Shoppinglist.selectedRow).getIbqty()
+				- dtoList3.get(Shoppinglist.selectedRow).getObqty() < qty) {
+			JOptionPane.showMessageDialog(null, Shoppinglist.loginname + "님!\n " + obrand + "브랜드 의 " + oname + "<"
+					+ ocolor + ">의 " + osize + "사이즈 " + "는 재고가 부족합니다.\n죄송합니다.!");
 			Shoppinglist shoppinglist = new Shoppinglist();
 			shoppinglist.setVisible(true);
 			dispose();
-		}else {
-			DaoBasket_OKH daobasket = new DaoBasket_OKH(Shoppinglist.loginid, Shoppinglist.selectedRow, Integer.parseInt(comboBox.getSelectedItem().toString()));
+		} else {
+			DaoBasket_OKH daobasket = new DaoBasket_OKH(Shoppinglist.loginid, Shoppinglist.selectedRow,
+					Integer.parseInt(comboBox.getSelectedItem().toString()));
 			daobasket.insertBasket();
-			
+
 			setVisible(false);
 			Basket basket = new Basket();
 			basket.setVisible(true);
-			
+
 		}
 	}
-	
-	
+
 }

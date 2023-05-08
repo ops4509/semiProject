@@ -48,6 +48,7 @@ public class DaoBuying_OKH {
 			pstmt_mysql.executeUpdate();
 			
 			}
+			conn_mysql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 
