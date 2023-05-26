@@ -170,3 +170,7 @@ $RECYCLE.BIN/\
 \cf0 \
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,eclipse\
 }
+src/com/javalec/base/.DS_Store
+src/com/javalec/dao/.DS_Store
+src/com/javalec/dto/.DS_Store
+.DS_Store
